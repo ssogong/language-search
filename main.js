@@ -15,25 +15,25 @@ window.onload = () => {
 const searchInput = document.querySelector('.SearchInput__input');
 searchInput.addEventListener('input', async event => {
   inputStr = event.target.value;
-  if (inputStr.length === 0)
-    return;
   resultArr = await api.getResult(inputStr);
-  //console.log(resultArr)
   updateResult();
 });
 
 const updateResult = () => {
   const suggentionDiv = document.querySelector('.Suggestion');
+  // result is empty
+  if (resultArr.length === 0)
+    suggentionDiv.style.display = 'none';
+  else
+    suggentionDiv.style.display = 'block';
   suggentionDiv.textContent = '';
-  let ul = document.createElement('ul');
+  const ul = document.createElement('ul');
+  const regex = new RegExp(`(${inputStr})`, 'gi');
   resultArr.forEach(re => {
-    const regex = new RegExp(`(${inputStr})`, 'gi');
-    console.log(regex.exec(re))
     re = re.replace(regex,
       '<span class="Suggestion__item--matched">$1</span>');
-    let li = document.createElement('li');
+    const li = document.createElement('li');
     li.innerHTML = re;
-    //li.appendChild(document.createTextNode(re));
     ul.appendChild(li);
   });
   suggentionDiv.appendChild(ul);
