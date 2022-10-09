@@ -1,6 +1,7 @@
 import * as api from './api.js'
 
 const searchInput = document.querySelector('.SearchInput__input');
+const selectedLanguageList = document.querySelector('#SelectedLanguageList');
 let resultArr = [];
 let inputStr = '';
 let nowSelectedIdx = 0;
@@ -43,6 +44,7 @@ window.onkeydown = (e) => {
     [...suggestionList.children].forEach((li, idx) => {
       if (idx === nowSelectedIdx) {
         alert(li.innerText);
+        updateSelectedLanguageList(li.innerText);
         return;
       }
     });
@@ -68,6 +70,7 @@ const updateResult = () => {
     li.innerHTML = re;
     li.addEventListener('click', (e => {
       alert(e.target.innerText);
+      updateSelectedLanguageList(li.innerText);
     }));
     ul.appendChild(li);
   });
@@ -84,4 +87,23 @@ const updateSelected = () => {
     } else
       li.classList.remove('Suggestion__item--selected');
   });
+}
+
+const updateSelectedLanguageList = (toAppendStr) => {
+  const tmpSelectedLanguageList = [...selectedLanguageList.children];
+  let ifHasDuplicate = false;
+  tmpSelectedLanguageList.forEach(li => {
+    if (li.innerText === toAppendStr) {
+      ifHasDuplicate = true;
+      return;
+    }
+  });
+  if (ifHasDuplicate)
+    return;
+  if (tmpSelectedLanguageList.length === 5) {
+    selectedLanguageList.removeChild(selectedLanguageList.firstElementChild);
+  }
+  const li = document.createElement('li');
+  li.innerText = toAppendStr;
+  selectedLanguageList.appendChild(li);
 }
