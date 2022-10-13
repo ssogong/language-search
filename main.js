@@ -56,8 +56,10 @@ window.onkeydown = (e) => {
 const updateResult = () => {
   const suggentionDiv = document.querySelector('.Suggestion');
   // result is empty
-  if (resultArr.length === 0)
+  if (resultArr.length === 0) {
     suggentionDiv.style.display = 'none';
+    return;
+  }
   else
     suggentionDiv.style.display = 'block';
   suggentionDiv.textContent = '';
