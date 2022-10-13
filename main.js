@@ -11,6 +11,7 @@ window.onload = () => {
   searchInput.focus();
   const tmpInputLen = searchInput.value.length;
   searchInput.setSelectionRange(tmpInputLen, tmpInputLen);
+  updateResult();
   // call search request
   searchInput.addEventListener('input', async event => {
     inputStr = event.target.value;
